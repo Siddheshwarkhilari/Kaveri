@@ -1,0 +1,76 @@
+I want to develop a website that will be cross platform i.e it will be webapp and mobile app too. The Website is about a organization "Kaveri GS Automech" that is popular hardware and manufacturing supplier. This will be a STATIC website that will serve the purpose of showcasing their products for the customers along with their artifacts of manufacturing gallery.
+This website will be hosted on vercel (that only hosts static websites).
+
+Technology stack that will be used:
+1] React Native
+2] Tailwind CSS
+3] React
+
+This is static website so make sure there is NO EXPRESS USED for this and all the routes will be registered with frontend only.
+These code should be build correctly.
+
+Architecture of project:
+There are four pages 
+	1. Home
+	2. About us
+	3. Products
+	4. Gallery
+	5. Contact us
+
+Apart from this there will be Header and Footer section that will be common across all pages.
+- Navbar : The navbar will consists of all tabs for the pages redirection with same names that are given for the pages.
+- Footer : The Footer will consists of 3 section
+[Refer the header and footer from the images uploaded]
+		
+
+The Content of each pages will be as follow
+
+- Home:
+	1] The first component will be slide carousel With indicators alongside the control, there will be images uploaded in these section and I should be able to write text 
+           on them as well. On each slide there will be "Show more" button that will navigate to respective pages based upon the content in the slide
+	2] Second container will describe in short about the company.[Refer the images uploaded]
+	3] Third Container will be Featured product section that will consists of Product carousel which will consists of product slides along with their features with other options as w	   well, each slide here will have "View All Product" button that will navigate to the products page
+
+- About us:
+	1] This section will describe about overall story of organization and its features as well. First section will have two parts, "Our Establishment - a paragraph for Introduction" 	   and "Company Brochure" section that will have "download" button to download company brochure
+	2] Second container will define "Who we are" - You can modify this section according to your knowledge, can use graphs or any other design[Refer the images uploaded]
+	3] third section will have two parts , both will consists of space for writing content
+
+- Products:
+	1] This Section will have some title tile about the product and below it there will be separate tile for each product. There should be some fields below the product image on the 	   tile as "Name" and "Description"
+	2] Make sure length of all the tiles should be same and all the images should be properly fit into the tiles
+	3] The content (Description) in the product tile that will appear below the product image should be scrollable i.e each tile should be scrollable for its content.
+	4] On clicking product tile, it should appear like a pop up in centre of screen with enlarged size with same functionality
+	5] I should be able to add as many products as I can.
+
+- Gallery:
+	1] This section will also contain a images tile for showcasing the images, it will only contain the description
+	2] I want same functionality for this as told for tiles in the product section
+
+- Contact us:
+	1] For these section please follow the attached photos
+	2] Keep the Email , Contact no, and company address in this place
+
+Application design:
+	1] Keep the background colour for all the pages as white
+	2] It should look so formal, don't make it look something like a coding website.
+	3] Use the professional Emojis wherever required
+	4] For Styling use various effects also for clicking events use proper hover and colour effects of the buttons
+	5] Use parallax scrolling where required and hover animation
+	6] Also use page transition effects and stop motion effects
+	7] MAKE SURE THIS SHOULD LOOK FORMAL AS THIS WILL BE BUSINESS WEBSITE.
+
+Application files and structure
+	1] Use proper names for the component files.
+	2] Make sure that there is no backend so I don't want any server directory
+	3] The photos for whole application will be inside public directory and it will follow some naming convention as 
+			- brochure - (It will contain the brochure pdf that will be available through download button )
+			- products - (It will contain images of product in products page)
+			- gallery - (It will contain images for gallery section)
+			- logo - (It will contain logo that will be used at appropriate location)
+			- partner_logos - (It will contain partners logos that will be available on footer section)
+			- slides - (It will contain images for slide carousel on home page )
+			- featured-products - (It will contain images for product carousel)
+	3] I want you to implement search functionality for the products in the application 
+	4] Make sure you maintain the state of application and ensure proper redirection
+	5] For now make sure the images for each pages choose correct location from their respective pages, use dummy names , later on, I will replace the names of images correctly with 	   what placed in the folder.
