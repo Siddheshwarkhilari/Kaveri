@@ -16,10 +16,10 @@ export default function Footer() {
   ];
 
   const partnerLogos = [
-    "/partner_logos/partner1.png",
-    "/partner_logos/partner2.png",
-    "/partner_logos/partner3.png",
-    "/partner_logos/partner4.png",
+    "/partner_logos/partner-1.webp",
+    "/partner_logos/partner-2.webp",
+    "/partner_logos/partner-3.webp",
+    "/partner_logos/partner-4.webp",
   ];
 
   return (

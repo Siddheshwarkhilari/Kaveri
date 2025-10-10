@@ -9,7 +9,7 @@ export default function ProductModalExample() {
     id: "1",
     name: "Heavy Duty Hinge",
     description: "Professional-grade heavy duty hinges designed for industrial applications. These hinges feature reinforced construction with stainless steel components, providing exceptional load-bearing capacity and longevity. Ideal for heavy doors, gates, and industrial equipment. Corrosion-resistant finish ensures durability in harsh environments.",
-    image: "/products/product2.jpg"
+    image: "/products/product-2.webp"
   };
 
   if (!isOpen) {

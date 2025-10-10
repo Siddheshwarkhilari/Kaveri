@@ -3,7 +3,7 @@ import GalleryCard from '../GalleryCard';
 export default function GalleryCardExample() {
   const item = {
     id: "1",
-    image: "/gallery/gallery1.jpg",
+    image: "/gallery/gallery-1.webp",
     description: "Manufacturing facility showcasing our state-of-the-art production line"
   };
 

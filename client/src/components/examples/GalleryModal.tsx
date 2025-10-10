@@ -7,7 +7,7 @@ export default function GalleryModalExample() {
   
   const item = {
     id: "1",
-    image: "/gallery/gallery2.jpg",
+    image: "/gallery/gallery-2.webp",
     description: "Our modern manufacturing facility equipped with advanced CNC machines and quality control systems, ensuring precision in every component we produce."
   };
 

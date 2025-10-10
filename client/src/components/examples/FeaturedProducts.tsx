@@ -5,7 +5,7 @@ export default function FeaturedProductsExample() {
     {
       id: "1",
       name: "Cable Tray Systems",
-      image: "/featured-products/featured1.jpg",
+      image: "/featured-products/featured-1.webp",
       features: [
         "Corrosion-resistant galvanized steel construction",
         "Multiple size configurations available",
@@ -16,7 +16,7 @@ export default function FeaturedProductsExample() {
     {
       id: "2",
       name: "Industrial Hinges",
-      image: "/featured-products/featured2.jpg",
+      image: "/featured-products/featured-2.webp",
       features: [
         "Heavy-duty load capacity up to 500kg",
         "Stainless steel components for durability",

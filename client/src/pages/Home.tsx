@@ -6,21 +6,21 @@ import { Card, CardContent } from "@/components/ui/card";
 export default function Home() {
   const heroSlides = [
     {
-      image: "/slides/slide1.jpg",
+      image: "/slides/slide-1.webp",
       title: "Quality Hardware Solutions",
       description: "Premium manufacturing components for industrial applications with unmatched reliability",
       buttonText: "Explore Products",
       buttonLink: "/products"
     },
     {
-      image: "/slides/slide2.jpg",
+      image: "/slides/slide-2.webp",
       title: "Precision Engineering",
       description: "Advanced manufacturing capabilities with state-of-the-art technology and expertise",
       buttonText: "View Gallery",
       buttonLink: "/gallery"
     },
     {
-      image: "/slides/slide3.jpg",
+      image: "/slides/slide-3.webp",
       title: "Trusted Excellence",
       description: "Delivering innovation and reliability in every component we manufacture",
       buttonText: "Learn More",
@@ -32,7 +32,7 @@ export default function Home() {
     {
       id: "1",
       name: "Cable Tray Systems",
-      image: "/featured-products/featured1.jpg",
+      image: "/featured-products/featured-1.webp",
       features: [
         "Corrosion-resistant galvanized steel construction",
         "Multiple size configurations available",
@@ -43,7 +43,7 @@ export default function Home() {
     {
       id: "2",
       name: "Industrial Hinges",
-      image: "/featured-products/featured2.jpg",
+      image: "/featured-products/featured-2.webp",
       features: [
         "Heavy-duty load capacity up to 500kg",
         "Stainless steel components for durability",
@@ -54,7 +54,7 @@ export default function Home() {
     {
       id: "3",
       name: "Fastener Solutions",
-      image: "/featured-products/featured3.jpg",
+      image: "/featured-products/featured-3.webp",
       features: [
         "High-tensile strength bolts and nuts",
         "Available in various grades and finishes",

@@ -14,49 +14,49 @@ export default function Products() {
       id: "1",
       name: "Cable Tray Fitting",
       description: "High-quality cable tray fittings designed for industrial electrical installations. Durable galvanized steel construction with corrosion-resistant finish. Available in multiple sizes to accommodate various cable loads and configurations.",
-      image: "/products/product1.jpg"
+      image: "/products/product-1.webp"
     },
     {
       id: "2",
       name: "Heavy Duty Hinge",
       description: "Professional-grade heavy duty hinges for industrial applications. Reinforced stainless steel construction with high load-bearing capacity. Self-lubricating bearings ensure smooth operation and longevity.",
-      image: "/products/product2.jpg"
+      image: "/products/product-2.webp"
     },
     {
       id: "3",
       name: "Refer Truck Lockset",
       description: "Specialized locksets designed for refrigerated truck applications. Weather-resistant construction with anti-corrosion coating. Secure locking mechanism ensures cargo safety in extreme conditions.",
-      image: "/products/product3.jpg"
+      image: "/products/product-3.webp"
     },
     {
       id: "4",
       name: "Industrial Fasteners",
       description: "Comprehensive range of high-tensile strength bolts, nuts, and screws. Available in various grades including stainless steel and galvanized finishes. Custom specifications available for specialized applications.",
-      image: "/products/product4.jpg"
+      image: "/products/product-4.webp"
     },
     {
       id: "5",
       name: "Pivot Bracket",
       description: "Heavy-duty pivot brackets for industrial machinery and equipment. Precision-engineered for smooth rotation and load distribution. Available in multiple mounting configurations.",
-      image: "/products/product5.jpg"
+      image: "/products/product-5.webp"
     },
     {
       id: "6",
       name: "Junction Box",
       description: "Industrial-grade junction boxes with IP65 rating. Suitable for harsh environments with dust and water protection. Multiple entry points for flexible cable management.",
-      image: "/products/product6.jpg"
+      image: "/products/product-6.webp"
     },
     {
       id: "7",
       name: "Corner Fitting",
       description: "90-degree corner fittings for cable tray installations. Smooth radius design prevents cable damage. Hot-dip galvanized for superior corrosion resistance.",
-      image: "/products/product7.jpg"
+      image: "/products/product-7.webp"
     },
     {
       id: "8",
       name: "T-Junction Connector",
       description: "T-junction connectors for branching cable routes. Easy snap-fit installation with no special tools required. Compatible with standard cable tray systems.",
-      image: "/products/product8.jpg"
+      image: "/products/product-8.webp"
     }
   ];
 

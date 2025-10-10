@@ -5,7 +5,7 @@ export default function ProductCardExample() {
     id: "1",
     name: "Cable Tray Fitting",
     description: "High-quality cable tray fittings designed for industrial electrical installations. Durable construction with corrosion-resistant finish.",
-    image: "/products/product1.jpg"
+    image: "/products/product-1.webp"
   };
 
   return (
