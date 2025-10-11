@@ -16,10 +16,10 @@ export default function Footer() {
   ];
 
   const partnerLogos = [
-    "/partner_logos/partner-1.webp",
-    "/partner_logos/partner-2.webp",
-    "/partner_logos/partner-3.webp",
-    "/partner_logos/partner-4.webp",
+    "/partner_logos/partner-logo-1.png",
+    "/partner_logos/partner-logo-2.png",
+    "/partner_logos/partner-logo-3.png",
+    "/partner_logos/partner-logo-4.png",
   ];
 
   return (
@@ -92,7 +92,8 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4" />
-              <span data-testid="text-address">Pune, India</span>
+              <span data-testid="text-address">Plot no:1, Gate No. 483 Mahalaxmi Industrial Street,Near Bhangare West, Mahalunge-Varude Road, Chakan
+Pune-410501, India</span>
             </div>
           </div>
           <div className="text-center mt-6 text-sm text-muted-foreground">

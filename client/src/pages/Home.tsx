@@ -72,10 +72,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
-              About Kaveri GS Automech
+              WHO WE ARE?
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Your trusted partner for quality hardware and manufacturing solutions. We specialize in delivering excellence in precision engineering, reliability, and innovation for industrial applications.
+              Kaveri GS Automech is your trusted partner for quality hardware and manufacturing solutions. We specialize in delivering excellence in precision engineering, reliability, and innovation for industrial applications.
             </p>
           </div>
 

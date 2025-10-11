@@ -20,13 +20,24 @@ export default function About() {
             <div>
               <h2 className="text-3xl font-heading font-bold mb-6">Our Establishment</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Kaveri GS Automech has been a cornerstone in the hardware and manufacturing industry, dedicated to providing top-quality industrial components. Our journey began with a vision to deliver precision-engineered solutions that meet the evolving needs of modern industries.
+                Founded in 2016, Kaveri GS AutoMech established as a partnership firm with a strong emphasis on delivering quality and precision
+                in every project.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                With state-of-the-art manufacturing facilities and a team of experienced professionals, we have established ourselves as a trusted partner for businesses seeking reliable, high-performance hardware solutions. Our commitment to quality, innovation, and customer satisfaction drives everything we do.
+                Became Private Limited in 2021Transitioned to a structured, growth-focused company with formal systems and long-term vision,
+                Significantly expanded our capabilities
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                From cable tray fittings to heavy-duty hinges and specialized fasteners, our comprehensive product range serves diverse industrial applications across multiple sectors.
+                Situated in Chakan, a thriving industrial hub near Pune, providing us with access to a robust ecosystem of talent, suppliers,
+                and logistical advantages.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Every component undergoes a comprehensive series of stringent quality checks, ensuring exceptional precision and adherence 
+                to standards before being dispatched to our customers.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                We offer flexible manufacturing services, ranging from highly customized single-piece production to efficient batch production, 
+                precisely tailored to customer drawings and specifications.
               </p>
             </div>
 
@@ -59,7 +70,7 @@ export default function About() {
 
       <section className="py-16 md:py-24 bg-muted/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-20">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-12">Who We Are</h2>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-12">A SMALL GLANCE AT US</h2>
           
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card className="text-center">
@@ -67,7 +78,7 @@ export default function About() {
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Factory className="h-10 w-10 text-primary" />
                 </div>
-                <div className="text-4xl font-heading font-bold text-primary mb-2">15+</div>
+                <div className="text-4xl font-heading font-bold text-primary mb-2">10+</div>
                 <p className="text-muted-foreground">Years of Experience</p>
               </CardContent>
             </Card>
@@ -77,7 +88,7 @@ export default function About() {
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-10 w-10 text-primary" />
                 </div>
-                <div className="text-4xl font-heading font-bold text-primary mb-2">500+</div>
+                <div className="text-4xl font-heading font-bold text-primary mb-2">50+</div>
                 <p className="text-muted-foreground">Satisfied Clients</p>
               </CardContent>
             </Card>
@@ -87,7 +98,7 @@ export default function About() {
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <TrendingUp className="h-10 w-10 text-primary" />
                 </div>
-                <div className="text-4xl font-heading font-bold text-primary mb-2">1000+</div>
+                <div className="text-4xl font-heading font-bold text-primary mb-2">100+</div>
                 <p className="text-muted-foreground">Products Delivered</p>
               </CardContent>
             </Card>

@@ -22,7 +22,7 @@ export default function Header() {
           <Link href="/" data-testid="link-home">
             <div className="flex items-center gap-3 cursor-pointer hover-elevate transition-all duration-300 px-3 py-2 rounded-md">
               <img 
-                src="/logo/logo.webp" 
+                src="/logo/logo.png" 
                 alt="Kaveri GS Automech Logo" 
                 className="h-12 w-auto object-contain"
                 onError={(e) => {

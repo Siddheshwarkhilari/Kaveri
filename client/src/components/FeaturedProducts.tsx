@@ -1,3 +1,4 @@
+// FeaturedProducts.tsx
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,13 +12,73 @@ interface FeaturedProduct {
   features: string[];
 }
 
-interface FeaturedProductsProps {
-  products: FeaturedProduct[];
-}
-
-export default function FeaturedProducts({ products }: FeaturedProductsProps) {
+export default function FeaturedProducts() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [, setLocation] = useLocation();
+
+  const products: FeaturedProduct[] = [
+    {
+      id: "1",
+      name: "Refer Lock-sets assembly",
+      image: "/featured-products/pump-product-1.webp",
+      features: [
+        "Heavy-Duty Hinges for Heavy Vehicles - Robust and corrosion-resistant hinges designed for heavy vehicles like trucks and trailers.",
+        "Category - Locksets",
+        "High Pressure Output",
+        "Energy Efficient",
+        "Low Maintenance"
+      ]
+    },
+    {
+      id: "2",
+      name: "Heavy duty Hinges",
+      image: "/featured-products/Hinges.webp",
+      features: [
+        "Heavy-Duty Hinges for Heavy Vehicles - Robust and corrosion-resistant hinges designed for heavy vehicles like trucks and trailers.",
+        "Category - Hinges",
+        "EN8 Hardened",
+        "Various Sizes",
+        "Forged and Machined"
+      ]
+    },
+    {
+      id: "3",
+      name: "Special Lockset",
+      image: "/featured-products/hinge-product-1.webp",
+      features: [
+        "Premium quality stainless steel lockset designed for heavy industrial applications with superior corrosion resistance and durability with a sleek design",
+        "Various Sizes",
+        "Category - Airtight container locksets",
+        "Corrosion Resistant",
+        "Stainless Steel 316"
+      ]
+    },
+    {
+      id: "4",
+      name: "Cable tray fitting",
+      image: "/featured-products/Cable-tray.webp",
+      features: [
+        "Cable tray fittings made from high-quality stainless steel, ideal for secure and organized cable management in industrial settings.",
+        "Category - Fasteners",
+        "OEM approved",
+        "316L Stainless Steel", 
+        "Various Sizes"
+      ]
+    },
+    {
+      id: "5",
+      name: "Marine Grade Fasteners",
+      image: "/featured-products/fastener-product-1.webp",
+      features: [
+        "Marine Grade Fasteners - Designed for use in harsh marine environments, these fasteners offer superior corrosion resistance and durability.",
+        "Category - Fasteners",
+        "Marine Grade",
+        "316L Stainless Steel", 
+        "Various Sizes"
+      ]
+    }
+    // You can add more products here
+  ];
 
   const nextProduct = () => {
     setCurrentIndex((prev) => (prev + 1) % products.length);

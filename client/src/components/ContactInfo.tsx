@@ -50,8 +50,7 @@ export default function ContactInfo() {
           <div>
             <h4 className="font-semibold mb-1">Business Hours</h4>
             <div className="text-muted-foreground space-y-1" data-testid="text-business-hours">
-              <p>Monday to Friday: 9:00 AM - 6:00 PM IST</p>
-              <p>Saturday: 9:00 AM - 1:00 PM IST</p>
+              <p>Monday to Saturday: 9:00 AM - 6:00 PM IST</p>
               <p>Sunday: Closed</p>
             </div>
           </div>

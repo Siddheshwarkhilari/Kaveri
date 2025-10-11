@@ -4,10 +4,9 @@ export default function FeaturedProductsExample() {
   const products = [
     {
       id: "1",
-      name: "Cable Tray Systems",
-      image: "/featured-products/featured-1.webp",
+      name: "Refer Lock-sets assembly",
+      image: "/featured-products/Hinges.webp",
       features: [
-        "Corrosion-resistant galvanized steel construction",
         "Multiple size configurations available",
         "Easy installation with modular design",
         "Compliant with international safety standards"
