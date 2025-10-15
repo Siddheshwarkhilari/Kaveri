@@ -20,7 +20,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-20">
         <div className="flex items-center justify-between h-20">
           <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-3 cursor-pointer hover-elevate transition-all duration-300 px-3 py-2 rounded-md">
+            <div className="flex items-center gap-3 cursor-pointer hover-elevate transition-all duration-300 px-5 py-3 rounded-md">
               <img 
                 src="/logo/logo.png" 
                 alt="Kaveri GS Automech Logo" 
@@ -29,7 +29,10 @@ export default function Header() {
                   (e.target as HTMLImageElement).src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23007BFF'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white' font-weight='bold'%3EKG%3C/text%3E%3C/svg%3E";
                 }}
               />
-              <span className="text-xl font-heading font-bold text-foreground hidden md:block">
+              <span
+                className="text-lg sm:text-xl md:text-3xl font-bold text-foreground"
+                style={{ fontFamily: "'Arial Black', Arial, sans-serif", letterSpacing: "0.5px" }}
+              >
                 KAVERI GS AUTOMECH
               </span>
             </div>

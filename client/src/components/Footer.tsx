@@ -69,7 +69,7 @@ export default function Footer() {
                   <img
                     src={logo}
                     alt={`Partner ${index + 1}`}
-                    className="h-8 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                    className="h-8 w-auto object-contain transition-all duration-300"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='32' viewBox='0 0 80 32'%3E%3Crect width='80' height='32' fill='%23E5E7EB'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='10' fill='%239CA3AF'%3EPartner ${index + 1}%3C/text%3E%3C/svg%3E`;
                     }}
@@ -90,10 +90,19 @@ export default function Footer() {
               <Mail className="h-4 w-4" />
               <span data-testid="text-email">kaveri.gs01@gmail.com</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4" />
-              <span data-testid="text-address">Plot no:1, Gate No. 483 Mahalaxmi Industrial Street,Near Bhangare West, Mahalunge-Varude Road, Chakan
-Pune-410501, India</span>
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 mt-1" />
+              <div className="flex flex-col leading-snug">
+                <span data-testid="text-address">
+                  Plot No. 1, Gate No. 483, Mahalaxmi Industrial Street,
+                </span>
+                <span>
+                  Near Bhangare West, Mahalunge-Varude Road,
+                </span>
+                <span>
+                  Chakan, Pune - 410501, India
+                </span>
+              </div>
             </div>
           </div>
           <div className="text-center mt-6 text-sm text-muted-foreground">
