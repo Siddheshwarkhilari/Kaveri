@@ -30,7 +30,7 @@ export default function Header() {
                 }}
               />
               <span className="text-xl font-heading font-bold text-foreground hidden md:block">
-                Kaveri GS Automech
+                KAVERI GS AUTOMECH
               </span>
             </div>
           </Link>
