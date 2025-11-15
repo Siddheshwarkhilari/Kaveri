@@ -88,7 +88,7 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Mail className="h-4 w-4" />
-              <span data-testid="text-email">kaveri.gs01@gmail.com</span>
+              <span data-testid="text-email">info@kaverigsautomech.com</span>
             </div>
             <div className="flex items-start gap-2 text-sm text-muted-foreground">
               <MapPin className="h-4 w-4 mt-1" />

@@ -24,7 +24,7 @@ export default function About() {
                 in every project.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Became Private Limited in 2021Transitioned to a structured, growth-focused company with formal systems and long-term vision,
+                Became Private Limited in 2021, we transitioned to a structured, growth-focused company with formal systems and long-term vision,
                 Significantly expanded our capabilities
               </p>
               <p className="text-muted-foreground leading-relaxed">
