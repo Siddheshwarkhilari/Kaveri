@@ -18,10 +18,6 @@ jobs:
           name: Install Dependencies
           command: npm install
 
-      - run:
-          name: Install Sonar Scanner
-          command: npm install -g sonarqube-scanner
-
       - sonarcloud/scan
 
       - setup_remote_docker:
