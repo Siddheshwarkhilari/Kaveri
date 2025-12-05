@@ -7,6 +7,7 @@
     "dev": "cross-env NODE_ENV=development tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "cross-env =production node dist/index.js",
+    "test": "echo \"No tests available\" && exit 0",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
