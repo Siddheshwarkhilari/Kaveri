@@ -3,14 +3,14 @@ version: 2.1
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0
 
-environment:
-  DOCKER_BUILDKIT: 1
-
 jobs:
 
   build_and_scan:
     docker:
       - image: cimg/node:20.5
+
+    environment:
+      DOCKER_BUILDKIT: 1
 
     steps:
       - checkout
@@ -19,8 +19,9 @@ jobs:
           name: Install Node Dependencies
           command: npm install
 
-      # ---- SONARCLOUD SCAN ----
-      # Uses sonar-project.properties automatically
+      # -------------------------------
+      # SONARCLOUD SCAN (FULLY FIXED)
+      # -------------------------------
       - sonarcloud/scan
 
       - setup_remote_docker:
@@ -45,8 +46,10 @@ jobs:
 
     steps:
       - checkout
+      
       - setup_remote_docker:
           docker_layer_caching: true
+      
       - attach_workspace:
           at: .
 
@@ -56,14 +59,18 @@ jobs:
             export TAG=$(cat image_tag.txt)
             echo "Using TAG: $TAG"
 
-      # ---- BUILD DOCKER IMAGE ----
+      # -------------------------------
+      # BUILD DOCKER IMAGE
+      # -------------------------------
       - run:
           name: Build Docker Image
           command: |
             export TAG=$(cat image_tag.txt)
             docker build -t kaverigsautomech:$TAG .
 
-      # ---- TRIVY VULNERABILITY SCAN ----
+      # -------------------------------
+      # TRIVY SCAN
+      # -------------------------------
       - run:
           name: Install Trivy
           command: |
@@ -77,15 +84,19 @@ jobs:
             export TAG=$(cat image_tag.txt)
             trivy image --exit-code 0 kaverigsautomech:$TAG
 
-      # ---- TEST RUN ----
+      # -------------------------------
+      # HEALTH CHECK
+      # -------------------------------
       - run:
           name: Run Container (Health Check)
           command: |
             export TAG=$(cat image_tag.txt)
             docker run -d --rm -p 5000:5000 kaverigsautomech:$TAG
-            echo "Container is running (health check passed)"
+            echo "Container started successfully"
 
-      # ---- PUSH TO DOCKER HUB ----
+      # -------------------------------
+      # PUSH TO DOCKER HUB
+      # -------------------------------
       - run:
           name: Login & Push Image
           command: |
@@ -94,11 +105,12 @@ jobs:
             docker tag kaverigsautomech:$TAG $DOCKER_REPO/kaverigsautomech:$TAG
             docker push $DOCKER_REPO/kaverigsautomech:$TAG
 
+
 workflows:
   build_pipeline:
     jobs:
       - build_and_scan:
-          context: sonarcloud     # SONAR_TOKEN comes from this context
+          context: sonarcloud           # SONAR_TOKEN comes from CircleCI Context
       - docker_build_push:
           requires:
             - build_and_scan
