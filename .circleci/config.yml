@@ -1,7 +1,51 @@
 version: 2.1
 
+orbs:
+  sonarcloud: sonarsource/sonarcloud@2.0
+
+environment:
+  DOCKER_BUILDKIT: 1
+
 jobs:
-  build_and_push:
+  build_and_scan:
+    docker:
+      - image: cimg/node:20.5  # Node + tools required for lint + test + sonar
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: |
+            npm install
+
+      - run:
+          name: Run Tests & Generate Coverage
+          command: |
+            npm test -- --coverage
+
+      - run:
+          name: Prepare Sonar Qube Scanner
+          command: |
+            npm install -g sonarqube-scanner
+
+      - sonarcloud/scan
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Generate Dynamic Docker Image Tag
+          command: |
+            export TAG="build-${CIRCLE_BUILD_NUM}"
+            echo $TAG > image_tag.txt
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - image_tag.txt
+
+  docker_build_push:
     docker:
       - image: cimg/base:stable
 
@@ -11,23 +55,54 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
 
-      - run:
-          name: Docker Login
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - attach_workspace:
+          at: .
 
       - run:
-          name: Build Image
+          name: Load Generated Tag
           command: |
-            docker build -t $DOCKERHUB_USERNAME/kaverigsautomech:latest .
+            export TAG=$(cat image_tag.txt)
+            echo "Using image tag: $TAG"
+
+      - run:
+          name: Build Docker Image
+          command: |
+            export TAG=$(cat image_tag.txt)
+            docker build -t kaverigsautomech:$TAG .
+
+      - run:
+          name: Install Trivy (Dependency + Vulnerability Scan)
+          command: |
+            sudo apt-get update && sudo apt-get install -y wget
+            wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.48.0_Linux-64bit.deb
+            sudo dpkg -i trivy_0.48.0_Linux-64bit.deb
+
+      - run:
+          name: Run Trivy Scan
+          command: |
+            export TAG=$(cat image_tag.txt)
+            trivy image --exit-code 1 kaverigsautomech:$TAG || true
+
+      - run:
+          name: Test Run Container
+          command: |
+            export TAG=$(cat image_tag.txt)
+            docker run --rm -d -p 5000:5000 kaverigsautomech:$TAG
+            echo "Container started successfully"
 
       - run:
           name: Push Image
           command: |
-            docker push $DOCKERHUB_USERNAME/kaverigsautomech:latest
+            export TAG=$(cat image_tag.txt)
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker tag kaverigsautomech:$TAG $DOCKER_REPO/kaverigsautomech:$TAG
+            docker push $DOCKER_REPO/kaverigsautomech:$TAG
 
 workflows:
-  version: 2
   build_pipeline:
     jobs:
-      - build_and_push
+      - build_and_scan:
+          context: sonarcloud
+      - docker_build_push:
+          requires:
+            - build_and_scan
