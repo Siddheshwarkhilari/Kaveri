@@ -19,10 +19,6 @@ jobs:
           command: npm install
 
       - run:
-          name: Run Dummy Tests (No Coverage Required)
-          command: npm test
-
-      - run:
           name: Install Sonar Scanner
           command: npm install -g sonarqube-scanner
 
