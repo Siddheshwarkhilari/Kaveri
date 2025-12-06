@@ -19,6 +19,16 @@ jobs:
           name: Install Node Dependencies
           command: npm install
 
+      - run:
+          name: Install Sonar Scanner
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+            unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+            mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+            echo 'export PATH="$PWD/sonar-scanner/bin:$PATH"' >> $BASH_ENV
+            source $BASH_ENV
+
+
       # --------------------------------------------------------
       # MANUAL SONAR SCANNER (FIXES missing projectKey/org error)
       # --------------------------------------------------------
