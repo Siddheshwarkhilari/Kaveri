@@ -19,9 +19,22 @@ jobs:
           name: Install Node Dependencies
           command: npm install
 
-      # -------------------------------
-      # SONARCLOUD SCAN (FULLY FIXED)
-      # -------------------------------
+      # --------------------------------------------------------
+      # MANUAL SONAR SCANNER (FIXES missing projectKey/org error)
+      # --------------------------------------------------------
+      - run:
+          name: Manual SonarCloud Analysis (Guaranteed Fix)
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=Siddheshwarkhilari_GSAutoMech \
+              -Dsonar.organization=siddheshwarkhilari \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_TOKEN
+
+      # --------------------------------------------------------
+      # Backup: SONARCLOUD ORB SCAN (Optional)
+      # --------------------------------------------------------
       - sonarcloud/scan
 
       - setup_remote_docker:
@@ -46,10 +59,8 @@ jobs:
 
     steps:
       - checkout
-      
       - setup_remote_docker:
           docker_layer_caching: true
-      
       - attach_workspace:
           at: .
 
@@ -59,18 +70,14 @@ jobs:
             export TAG=$(cat image_tag.txt)
             echo "Using TAG: $TAG"
 
-      # -------------------------------
-      # BUILD DOCKER IMAGE
-      # -------------------------------
+      # ---- Build Docker Image ----
       - run:
           name: Build Docker Image
           command: |
             export TAG=$(cat image_tag.txt)
             docker build -t kaverigsautomech:$TAG .
 
-      # -------------------------------
-      # TRIVY SCAN
-      # -------------------------------
+      # ---- Trivy Install ----
       - run:
           name: Install Trivy
           command: |
@@ -78,15 +85,14 @@ jobs:
             wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.48.0_Linux-64bit.deb
             sudo dpkg -i trivy_0.48.0_Linux-64bit.deb
 
+      # ---- Trivy Scan ----
       - run:
           name: Run Trivy Scan
           command: |
             export TAG=$(cat image_tag.txt)
             trivy image --exit-code 0 kaverigsautomech:$TAG
 
-      # -------------------------------
-      # HEALTH CHECK
-      # -------------------------------
+      # ---- Run Container (Health Check) ----
       - run:
           name: Run Container (Health Check)
           command: |
@@ -94,9 +100,7 @@ jobs:
             docker run -d --rm -p 5000:5000 kaverigsautomech:$TAG
             echo "Container started successfully"
 
-      # -------------------------------
-      # PUSH TO DOCKER HUB
-      # -------------------------------
+      # ---- Push To Docker Hub ----
       - run:
           name: Login & Push Image
           command: |
@@ -110,7 +114,7 @@ workflows:
   build_pipeline:
     jobs:
       - build_and_scan:
-          context: sonarcloud           # SONAR_TOKEN comes from CircleCI Context
+          context: sonarcloud     # Contains SONAR_TOKEN
       - docker_build_push:
           requires:
             - build_and_scan
