@@ -45,7 +45,6 @@ jobs:
       # --------------------------------------------------------
       # Backup: SONARCLOUD ORB SCAN (Optional)
       # --------------------------------------------------------
-      - sonarcloud/scan
 
       - setup_remote_docker:
           docker_layer_caching: true
