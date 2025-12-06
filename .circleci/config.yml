@@ -1,31 +1,133 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/reference/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/guides/orchestrate/jobs-steps/#jobs-overview & https://circleci.com/docs/reference/configuration-reference/#jobs
+orbs:
+  sonarcloud: sonarsource/sonarcloud@2.0
+
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/guides/execution-managed/executor-intro/ & https://circleci.com/docs/reference/configuration-reference/#executor-job
+
+  build_and_scan:
     docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/base
-      - image: cimg/base:current
+      - image: cimg/node:20.5
 
-    # Add steps to the job
-    # See: https://circleci.com/docs/guides/orchestrate/jobs-steps/#steps-overview & https://circleci.com/docs/reference/configuration-reference/#steps
+    environment:
+      DOCKER_BUILDKIT: 1
+
     steps:
-      # Checkout the code as the first step.
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/guides/orchestrate/workflows/ & https://circleci.com/docs/reference/configuration-reference/#workflows
+      - run:
+          name: Install Node Dependencies
+          command: npm install
+
+      - run:
+          name: Install Sonar Scanner
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+            unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+            mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+            echo 'export PATH="$PWD/sonar-scanner/bin:$PATH"' >> $BASH_ENV
+            source $BASH_ENV
+
+
+      # --------------------------------------------------------
+      # MANUAL SONAR SCANNER (FIXES missing projectKey/org error)
+      # --------------------------------------------------------
+      - run:
+          name: Manual SonarCloud Analysis (Guaranteed Fix)
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=Siddheshwarkhilari_GSAutoMech \
+              -Dsonar.organization=siddheshwarkhilari \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_TOKEN
+
+      # --------------------------------------------------------
+      # Backup: SONARCLOUD ORB SCAN (Optional)
+      # --------------------------------------------------------
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Generate Dynamic Docker Image Tag
+          command: |
+            export TAG="build-${CIRCLE_BUILD_NUM}"
+            echo $TAG > image_tag.txt
+            echo "Generated TAG: $TAG"
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - image_tag.txt
+
+
+  docker_build_push:
+    docker:
+      - image: cimg/base:stable
+
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Load Dynamic Tag
+          command: |
+            export TAG=$(cat image_tag.txt)
+            echo "Using TAG: $TAG"
+
+      # ---- Build Docker Image ----
+      - run:
+          name: Build Docker Image
+          command: |
+            export TAG=$(cat image_tag.txt)
+            docker build -t kaverigsautomech:$TAG .
+
+      # ---- Trivy Install ----
+      - run:
+          name: Install Trivy (Latest Version)
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y wget gnupg lsb-release
+            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+            echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
+            sudo apt-get update
+            sudo apt-get install -y trivy
+
+
+      # ---- Trivy Scan ----
+      - run:
+          name: Run Trivy Scan
+          command: |
+            export TAG=$(cat image_tag.txt)
+            trivy image --exit-code 0 kaverigsautomech:$TAG
+
+      # ---- Run Container (Health Check) ----
+      - run:
+          name: Run Container (Health Check)
+          command: |
+            export TAG=$(cat image_tag.txt)
+            docker run -d --rm -p 5000:5000 kaverigsautomech:$TAG
+            echo "Container started successfully"
+
+      # ---- Push To Docker Hub ----
+      - run:
+          name: Login & Push Image
+          command: |
+            export TAG=$(cat image_tag.txt)
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker tag kaverigsautomech:$TAG $DOCKER_REPO/kaverigsautomech:$TAG
+            docker push $DOCKER_REPO/kaverigsautomech:$TAG
+
+
 workflows:
-  say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  build_pipeline:
     jobs:
-      - say-hello
+      - build_and_scan:
+          context: sonarcloud     # Contains SONAR_TOKEN
+      - docker_build_push:
+          requires:
+            - build_and_scan
