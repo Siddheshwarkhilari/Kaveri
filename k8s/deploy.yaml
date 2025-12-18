@@ -1,1 +1,29 @@
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaverigsautomech
+  labels:
+    app: kaverigsautomech
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kaverigsautomech
+  template:
+    metadata:
+      labels:
+        app: kaverigsautomech
+    spec:
+      containers:
+        - name: kaverigsautomech
+          image: siddhesh111/kaverigsautomech:tagname
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
