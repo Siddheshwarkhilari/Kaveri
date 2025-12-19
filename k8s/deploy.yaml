@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: kaverigsautomech
-          image: siddhesh111/kaverigsautomech:tagname
+          image: siddhesh111/kaverigsautomech:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
