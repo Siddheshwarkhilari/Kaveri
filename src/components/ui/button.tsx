@@ -21,6 +21,11 @@ const buttonVariants = cva(
         secondary: "border bg-secondary text-secondary-foreground border border-secondary-border ",
         // Add a transparent border so that when someone toggles a border on later, it doesn't shift layout/size.
         ghost: "border border-transparent",
+        // Brand call-to-action in Kaveri blue.
+        brand:
+          "bg-kaveri-600 text-white border border-kaveri-500/60 shadow-[0_10px_30px_-12px_rgba(18,81,192,0.8)] transition-colors duration-300 hover:bg-kaveri-500",
+        // Translucent button for dark or media backgrounds.
+        glass: "bg-white/[0.06] text-white border border-white/15 backdrop-blur-md",
       },
       // Heights are set as "min" heights, because sometimes Ai will place large amount of content
       // inside buttons. With a min-height they will look appropriate with small amounts of content,
@@ -29,6 +34,7 @@ const buttonVariants = cva(
         default: "min-h-9 px-4 py-2",
         sm: "min-h-8 rounded-md px-3 text-xs",
         lg: "min-h-10 rounded-md px-8",
+        xl: "min-h-12 rounded-xl px-6 text-[15px]",
         icon: "h-9 w-9",
       },
     },

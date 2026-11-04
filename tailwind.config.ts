@@ -81,12 +81,51 @@ export default {
           busy: "rgb(239 68 68)",
           offline: "rgb(156 163 175)",
         },
+        // Brand palette ("Precision Blueprint"). Blues are sampled from the Kaveri logo.
+        ink: {
+          950: "#050B17",
+          900: "#0A1324",
+          800: "#111C33",
+          700: "#1B2843",
+          600: "#2B3A58",
+        },
+        kaveri: {
+          50: "#EEF4FE",
+          100: "#DDE8FC",
+          200: "#BBD2F8",
+          300: "#85AEF1",
+          400: "#4D84E6",
+          500: "#2A66D6",
+          600: "#1251C0",
+          700: "#0B439F",
+          800: "#08357E",
+          900: "#052A66",
+        },
+        swoosh: {
+          300: "#7DD8FF",
+          400: "#1BBBFF",
+          500: "#00A3EC",
+          600: "#0083C2",
+        },
+        steel: {
+          50: "#F5F7FA",
+          100: "#EBEFF4",
+          200: "#D9DFE8",
+          300: "#BAC4D2",
+          400: "#8E9BAF",
+          500: "#66748B",
+          600: "#4A576D",
+        },
       },
       fontFamily: {
         sans: ["Inter", "var(--font-sans)"],
         serif: ["var(--font-serif)"],
-        mono: ["Roboto", "var(--font-mono)"],
+        mono: ["JetBrains Mono", "var(--font-mono)"],
         heading: ["Montserrat", "sans-serif"],
+        display: ["Archivo", "Inter", "system-ui", "sans-serif"],
+      },
+      transitionTimingFunction: {
+        precise: "cubic-bezier(0.22, 1, 0.36, 1)",
       },
       keyframes: {
         "accordion-down": {
@@ -97,10 +136,16 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        // Autoplay timers: set the length per element with an inline animation-duration.
+        progress: {
+          from: { transform: "scaleX(0)" },
+          to: { transform: "scaleX(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        progress: "progress 1s linear forwards",
       },
     },
   },

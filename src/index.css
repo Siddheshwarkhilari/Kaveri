@@ -78,7 +78,7 @@
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-serif: Georgia, serif;
-  --font-mono: 'Roboto', Menlo, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
   --radius: .5rem; /* 8px */
   --shadow-2xs: 0px 1px 2px 0px hsl(220 15% 20% / 0.05);
   --shadow-xs: 0px 1px 3px 0px hsl(220 15% 20% / 0.08);
@@ -244,6 +244,56 @@
  * need to be distinguished from eachother visually.
  */
 @layer utilities {
+
+  /* Archivo is loaded with its width axis; display headings use the semi-expanded cut. */
+  .font-display {
+    font-stretch: 112%;
+  }
+
+  /*
+   * Widest the homepage hero can be while its 16:9 video still fits the first screen
+   * (2rem frame inset + 4rem peek of the palette). The navbar shares it so both line up.
+   */
+  .max-w-hero {
+    max-width: min(calc((100vh - 6rem) * 16 / 9), 1920px);
+    max-width: min(calc((100svh - 6rem) * 16 / 9), 1920px);
+  }
+
+  /* Blueprint grid used on dark brand surfaces. */
+  .bg-blueprint {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Engineering graph paper for light surfaces: major lines every 160px, minor every 32px. */
+  .bg-blueprint-light {
+    background-image:
+      linear-gradient(to right, rgb(10 19 36 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 19 36 / 0.055) 1px, transparent 1px),
+      linear-gradient(to right, rgb(10 19 36 / 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(10 19 36 / 0.03) 1px, transparent 1px);
+    background-size: 160px 160px, 160px 160px, 32px 32px, 32px 32px;
+  }
+
+  /* Ruler ticks for light surfaces: a major tick every 80px, minor ticks every 16px. */
+  .bg-ruler-light {
+    background-image:
+      linear-gradient(to right, rgb(10 19 36 / 0.22) 1px, transparent 1px),
+      linear-gradient(to right, rgb(10 19 36 / 0.1) 1px, transparent 1px);
+    background-size: 80px 8px, 16px 4px;
+    background-repeat: repeat-x;
+  }
+
+  /* Engineering-scale tick marks: a major tick every 64px, minor ticks every 8px. */
+  .bg-ruler {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.22) 1px, transparent 1px),
+      linear-gradient(to right, rgb(255 255 255 / 0.09) 1px, transparent 1px);
+    background-size: 64px 9px, 8px 4px;
+    background-repeat: repeat-x;
+  }
 
   /* Hide ugly search cancel button in Chrome until we can style it properly */
   input[type="search"]::-webkit-search-cancel-button {

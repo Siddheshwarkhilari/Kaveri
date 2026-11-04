@@ -1,76 +1,107 @@
-import { useState } from "react";
-import GalleryCard, { type GalleryItem } from "@/components/GalleryCard";
-import GalleryModal from "@/components/GalleryModal";
-import PageHeader from "@/components/PageHeader";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useLocation, useSearch } from "wouter";
+import { AnimatePresence, m } from "motion/react";
+import GalleryCollection from "@/components/gallery/GalleryCollection";
+import GalleryFilters from "@/components/gallery/GalleryFilters";
+import GalleryIntro from "@/components/gallery/GalleryIntro";
+import PhotoViewer from "@/components/gallery/PhotoViewer";
+import { filterGallery, galleryCategories, galleryPhotos, isGalleryFilter, type GalleryFilterId } from "@/data/gallery";
+import { ease } from "@/lib/motion";
+
+interface Selection {
+  id: string;
+  direction: number;
+}
 
 export default function Gallery() {
-  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const search = useSearch();
+  const [, navigate] = useLocation();
 
-  const galleryItems: GalleryItem[] = [
-    {
-      id: "1",
-      image: "/gallery/photo-2.webp",
-      description:
-        "Team collaboration on the shop floor—coordination between programming, tooling, and quality checks.",
-    },
-    {
-      id: "2",
-      image: "/gallery/photo-1.webp",
-      description: "Skilled operators focused on safe, repeatable machining and assembly sequences.",
-    },
-    {
-      id: "3",
-      image: "/gallery/photo-12.webp",
-      description: "Leadership and planning aligned with production capacity and delivery commitments.",
-    },
-    {
-      id: "4",
-      image: "/gallery/photo-5.webp",
-      description: "Hands-on workmanship with attention to tolerances and finish requirements.",
-    },
-    {
-      id: "5",
-      image: "/gallery/photo-6.webp",
-      description: "Experienced team members contributing across fabrication and assembly stages.",
-    },
-    {
-      id: "6",
-      image: "/gallery/photo-8.webp",
-      description: "Organised material flow and line balancing for steady output.",
-    },
-    {
-      id: "7",
-      image: "/gallery/photo-10.webp",
-      description: "Assembly and fit-up of complex industrial components.",
-    },
-    {
-      id: "8",
-      image: "/gallery/photo-4.webp",
-      description: "Machining operations with in-process inspection where the application demands it.",
-    },
-  ];
+  // The collection and the open photo live in the URL (?filter= and ?photo=) so both can be shared.
+  const [filter, setFilter] = useState<GalleryFilterId>(() => {
+    const value = new URLSearchParams(search).get("filter");
+    return isGalleryFilter(value) ? value : "all";
+  });
+  const [selection, setSelection] = useState<Selection | null>(() => {
+    const id = new URLSearchParams(search).get("photo");
+    return id && galleryPhotos.some((item) => item.id === id) ? { id, direction: 1 } : null;
+  });
+
+  const photos = useMemo(() => filterGallery(galleryPhotos, filter), [filter]);
+  const counts = useMemo(
+    () =>
+      Object.fromEntries([
+        ["all", galleryPhotos.length],
+        ...galleryCategories.map(({ id }) => [id, filterGallery(galleryPhotos, id).length]),
+      ]) as Record<GalleryFilterId, number>,
+    [],
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filter !== "all") params.set("filter", filter);
+    if (selection) params.set("photo", selection.id);
+    const queryString = params.toString();
+    const next = `/gallery${queryString ? `?${queryString}` : ""}`;
+    if (next !== `${window.location.pathname}${window.location.search}`) navigate(next, { replace: true });
+  }, [filter, selection, navigate]);
+
+  // The viewer browses the collection on screen (or the whole gallery if the open photo isn't in it).
+  const selected = selection ? galleryPhotos.find((item) => item.id === selection.id) ?? null : null;
+  const browseList = selected && photos.includes(selected) ? photos : galleryPhotos;
+
+  const open = useCallback((id: string) => setSelection({ id, direction: 1 }), []);
+  const navigateTo = useCallback((id: string, direction: number) => setSelection({ id, direction }), []);
+  const close = useCallback(() => setSelection(null), []);
 
   return (
-    <div className="min-h-screen bg-white">
-      <PageHeader
-        title="Gallery"
-        subtitle="A look inside our facility—people, equipment, and the discipline behind each batch."
-      />
+    <div className="bg-white">
+      <GalleryIntro total={galleryPhotos.length} />
 
-      <section className="py-14 md:py-20 border-t border-slate-200/80 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-16">
-          {/* Three cards per row on large screens; generous spacing between cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12 sm:gap-x-12 sm:gap-y-14 lg:gap-x-16 lg:gap-y-16">
-            {galleryItems.map((item) => (
-              <GalleryCard key={item.id} item={item} onClick={() => setSelectedItem(item)} />
-            ))}
-          </div>
+      <section
+        aria-label="Photographs"
+        className="relative bg-steel-50 bg-[linear-gradient(to_bottom,#ffffff,#F5F7FA_8rem)]"
+        data-testid="section-gallery"
+      >
+        <div
+          aria-hidden="true"
+          className="bg-blueprint-light pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,#000_12rem,#000_85%,transparent)]"
+        />
+        <div className="relative mx-auto max-w-7xl px-6 pb-24 sm:px-8 lg:px-10 lg:pb-32">
+          <m.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.7, ease: ease.out }}
+          >
+            <GalleryFilters active={filter} counts={counts} onChange={setFilter} />
+          </m.div>
+
+          <AnimatePresence mode="wait">
+            <m.div
+              key={filter}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.3 } }}
+              exit={{ opacity: 0, y: 10, transition: { duration: 0.22, ease: ease.in } }}
+              className="mt-10 lg:mt-14"
+            >
+              <GalleryCollection photos={photos} onOpen={open} />
+            </m.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {selectedItem && (
-        <GalleryModal item={selectedItem} onClose={() => setSelectedItem(null)} />
-      )}
+      <AnimatePresence>
+        {selected && (
+          <PhotoViewer
+            key="gallery-viewer"
+            photos={browseList}
+            index={browseList.indexOf(selected)}
+            direction={selection?.direction ?? 1}
+            onNavigate={navigateTo}
+            onClose={close}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
