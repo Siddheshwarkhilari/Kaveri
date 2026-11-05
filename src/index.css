@@ -250,13 +250,9 @@
     font-stretch: 112%;
   }
 
-  /*
-   * Widest the homepage hero can be while its 16:9 video still fits the first screen
-   * (2rem frame inset + 4rem peek of the palette). The navbar shares it so both line up.
-   */
+  /* Widest the homepage hero gets. The navbar shares it so its pills stay on the hero's corners. */
   .max-w-hero {
-    max-width: min(calc((100vh - 6rem) * 16 / 9), 1920px);
-    max-width: min(calc((100svh - 6rem) * 16 / 9), 1920px);
+    max-width: 1920px;
   }
 
   /* Blueprint grid used on dark brand surfaces. */

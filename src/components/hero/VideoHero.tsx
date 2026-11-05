@@ -12,18 +12,13 @@ function canAutoplay(): boolean {
   return !connection?.saveData && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function formatTime(seconds: number): string {
-  const s = Math.max(0, Math.floor(seconds));
-  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-}
-
 interface VideoHeroProps {
   slides: HeroSlide[];
 }
 
 /**
- * Video hero. Videos play uncropped in a 16:9 stage sized to fit the first screen,
- * and the copy for the active slide renders in a slim palette directly underneath.
+ * Video hero. Videos play in a wide stage sized to fit the first screen, and the copy and
+ * controls for the active slide render in a slim palette directly underneath.
  * Only the active video plays; the next one is fetched once the current one can play.
  */
 export default function VideoHero({ slides }: VideoHeroProps) {
@@ -40,12 +35,9 @@ export default function VideoHero({ slides }: VideoHeroProps) {
 
   const sectionRef = useRef<HTMLElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const progressRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const timeRef = useRef<HTMLSpanElement>(null);
 
   const shouldPlay = playing && inView && pageVisible;
 
-  const goTo = useCallback((index: number) => setActive(((index % count) + count) % count), [count]);
   const next = useCallback(() => setActive((i) => (i + 1) % count), [count]);
   const prev = useCallback(() => setActive((i) => (i - 1 + count) % count), [count]);
 
@@ -92,36 +84,6 @@ export default function VideoHero({ slides }: VideoHeroProps) {
     });
   }, [active, shouldPlay, requested]);
 
-  // Drive the active progress bar and timecode without re-rendering React every frame.
-  useEffect(() => {
-    progressRefs.current.forEach((bar, i) => {
-      if (bar && i !== active) bar.style.transform = "scaleX(0)";
-    });
-    const video = videoRefs.current[active];
-    const bar = progressRefs.current[active];
-    let frame = 0;
-    let lastSecond = -1;
-
-    const render = () => {
-      if (!video) return;
-      const total = video.duration || 0;
-      if (bar) bar.style.transform = `scaleX(${total ? Math.min(video.currentTime / total, 1) : 0})`;
-      const second = Math.floor(video.currentTime);
-      if (timeRef.current && second !== lastSecond) {
-        lastSecond = second;
-        timeRef.current.textContent = `${formatTime(second)} / ${formatTime(total)}`;
-      }
-    };
-    const loop = () => {
-      render();
-      frame = requestAnimationFrame(loop);
-    };
-
-    if (shouldPlay) loop();
-    else render();
-    return () => cancelAnimationFrame(frame);
-  }, [active, shouldPlay, ready]);
-
   // Pause when the hero is off-screen or the tab is hidden.
   useEffect(() => {
     const section = sectionRef.current;
@@ -156,10 +118,14 @@ export default function VideoHero({ slides }: VideoHeroProps) {
     >
       {/* On phones the navbar pills sit in the frame's top band; from md up they float over the video. */}
       <div className="max-w-hero relative mx-auto flex flex-col overflow-hidden rounded-[20px] bg-ink-950 pt-[88px] shadow-[0_40px_90px_-50px_rgba(5,11,23,0.7)] ring-1 ring-ink-950/10 sm:rounded-[28px] md:pt-0">
-        {/* The stage keeps the footage's own 16:9 shape, so the full frame is always visible. */}
+        {/*
+          The footage's own 16:9 shape on phones and tablets; a wide letterbox from lg up. The height cap
+          leaves room for the palette on the first screen. Where this trims the video, it keeps the middle,
+          where the part sits, so the part clears the palette. The mostly empty top is what gets hidden.
+        */}
         <m.div
           onPanEnd={onPanEnd}
-          className="relative aspect-video w-full touch-pan-y select-none overflow-hidden bg-ink-900 bg-blueprint"
+          className="relative aspect-video max-h-[calc(100svh-7rem)] w-full touch-pan-y select-none overflow-hidden bg-ink-900 bg-blueprint lg:aspect-[21/9]"
         >
           {slides.map((slide, i) => {
             const visible = i === active && (ready[i] || Boolean(slide.video.poster));
@@ -183,7 +149,7 @@ export default function VideoHero({ slides }: VideoHeroProps) {
                   playsInline
                   loop={count === 1}
                   tabIndex={-1}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-[50%_50%]"
                   onLoadedData={() => markReady(i)}
                   onError={() => markFailed(i)}
                   onEnded={() => {
@@ -220,12 +186,9 @@ export default function VideoHero({ slides }: VideoHeroProps) {
           slides={slides}
           active={active}
           playing={playing}
-          onSelect={goTo}
           onPrev={prev}
           onNext={next}
           onTogglePlay={() => setPlaying((p) => !p)}
-          progressRefs={progressRefs}
-          timeRef={timeRef}
         />
       </div>
     </section>

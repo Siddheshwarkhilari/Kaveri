@@ -1,6 +1,6 @@
 export interface HeroSlide {
   id: string;
-  /** Short label on the slide selector. */
+  /** Short name for the slide, read out by screen readers on the previous and next buttons. */
   label: string;
   /** Small technical line above the title. */
   eyebrow: string;
